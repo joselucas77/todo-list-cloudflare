@@ -1,4 +1,4 @@
-const API_URL = 'https://todo-list.joselucasa937.workers.dev/';
+const API_URL = 'https://todo-list.joselucasa937.workers.dev';
 
 async function loadTasks() {
 	const res = await fetch(`${API_URL}/api/tasks`);
