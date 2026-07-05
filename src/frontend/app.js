@@ -1,5 +1,7 @@
+const API_URL = 'https://todo-list.joselucasa937.workers.dev/';
+
 async function loadTasks() {
-	const res = await fetch('/api/tasks');
+	const res = await fetch(`${API_URL}/api/tasks`);
 	const tasks = await res.json();
 
 	const container = document.getElementById('tasks');
@@ -20,7 +22,7 @@ async function addTask() {
 
 	if (!input.value) return;
 
-	await fetch('/api/tasks', {
+	await fetch(`${API_URL}/api/tasks`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ title: input.value }),

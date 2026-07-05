@@ -1,48 +1,34 @@
-import html from './frontend/index.html';
-import css from './frontend/style.css';
-import js from './frontend/app.js';
-
 export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
 
-		// API - LISTAR
+		// permitir CORS (Pages vai chamar essa API)
+		const corsHeaders = {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+			'Access-Control-Allow-Headers': 'Content-Type',
+		};
+
+		if (request.method === 'OPTIONS') {
+			return new Response(null, { headers: corsHeaders });
+		}
+
+		// LISTAR TASKS
 		if (url.pathname === '/api/tasks' && request.method === 'GET') {
 			const result = await env.DB.prepare('SELECT * FROM tasks ORDER BY id DESC').all();
 
-			return Response.json(result.results);
+			return Response.json(result.results, { headers: corsHeaders });
 		}
 
-		// API - CRIAR
+		// CRIAR TASK
 		if (url.pathname === '/api/tasks' && request.method === 'POST') {
 			const body = await request.json();
 
 			await env.DB.prepare('INSERT INTO tasks (title) VALUES (?)').bind(body.title).run();
 
-			return Response.json({ success: true });
+			return Response.json({ success: true }, { headers: corsHeaders });
 		}
 
-		// FRONTEND - HTML
-		if (url.pathname === '/') {
-			return new Response(html, {
-				headers: { 'content-type': 'text/html' },
-			});
-		}
-
-		// CSS
-		if (url.pathname === '/style.css') {
-			return new Response(css, {
-				headers: { 'content-type': 'text/css' },
-			});
-		}
-
-		// JS
-		if (url.pathname === '/app.js') {
-			return new Response(js, {
-				headers: { 'content-type': 'application/javascript' },
-			});
-		}
-
-		return new Response('Not found', { status: 404 });
+		return new Response('Not Found', { status: 404 });
 	},
 };
