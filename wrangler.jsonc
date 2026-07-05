@@ -8,12 +8,18 @@
 	"main": "src/index.js",
 	"compatibility_date": "2026-07-05",
 	"observability": {
-		"enabled": true
+		"enabled": true,
 	},
 	"upload_source_maps": true,
-	"compatibility_flags": [
-		"nodejs_compat"
-	]
+	"compatibility_flags": ["nodejs_compat"],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "todo-db",
+			"database_id": "9ad93659-be6e-4c91-b8c7-39ae2dd643c6",
+			"remote": true,
+		},
+	],
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
